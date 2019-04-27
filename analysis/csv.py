@@ -1,6 +1,8 @@
-# import os
-from os import path
-import ppprint
+#! /usr/bin/env python3
+# coding: utf-8
+
+import os
+import pprint
 import logging as lg
 
 import pandas as pd
@@ -10,9 +12,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-
-class SetOfParliamentMembers(object):
-    """docstring forSetOfParliamentMembers."""
+class SetOfParliamentMember:
+    """docstring for SetOfParliamentMember."""
 
     def __init__(self, name):
         self.name = name
@@ -38,12 +39,13 @@ class SetOfParliamentMembers(object):
         fig, ax = plt.subplots()
         ax.axis("equal")
         ax.pie(
-                proportions,
-                labels=labels,
-                autopct="%1.f%%"
-            )
+            proportions,
+            labels=labels,
+            autopct="%1.1f%%"
+        )
         plt.title("{} ({} MPs)".format(self.name, nb_mps))
         plt.show()
+
 
     def split_by_political_party(self):
         result = {}
@@ -53,15 +55,16 @@ class SetOfParliamentMembers(object):
 
         for party in all_parties:
             data_subset = data[data.parti_ratt_financier == party]
-            subset = SetOfParliamentMembers("MPs from party '{}'".format(party))
-            subset.data_from_dataframe(data_subset)
+            subset = SetOfParliamentMember('MPs from party "{}"'.format(party))
             result[party] = subset
 
         return result
 
+
+
 def launch_analysis(data_file, by_party = False):
-    sopm = SetOfParliamentMembers("All MPs")
-    sopm.data_from_csv(path.join("data",data_file)
+    sopm = SetOfParliamentMember("All MPs")
+    sopm.data_from_csv(os.path.join("data",data_file))
     sopm.display_chart()
 
     if by_party:
@@ -69,9 +72,5 @@ def launch_analysis(data_file, by_party = False):
             s.display_chart()
 
 
-def main():
-    launch_analysis('current_mps.csv')
-
-
 if __name__ == '__main__':
-    main()
+    launch_analysis(current_mps.csv)
