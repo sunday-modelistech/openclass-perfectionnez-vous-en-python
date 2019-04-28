@@ -14,7 +14,13 @@ def parse_arguments():
     parser.add_argument("-d","--datafile",help="""CSV file containing pieces of
         information about the members of parliament""")
     parser.add_argument("-e", "--extension", help="""Kind of file to analyse. Is it a CSV or an XML?""")
-    parser.add_argument("-p","--byparty",action='store_true',help="displays a graph for each political party")
+    parser.add_argument("-p","--byparty",action='store_true',help="""displays a graph for each political party""")
+    parser.add_argument("-i","--info",action='store_true',help="""informationa bout the file""")
+    parser.add_argument("-n","--displaynames",action='store_true',help="""displays the names of all the mps""")
+    parse.add_argument("-s","--searchnames", action='store_true', help="""search for a mp name""")
+    parse.add_argument("-I","--index", action='store_true', help="""display information about the Ith mp""")
+    parse.add_argument("-g","--groupfirst", action='store_true', help="""displays a graph groupping all the 'g' biggest political parties""")
+
 
     return parser.parse_args()
 
@@ -28,7 +34,8 @@ def main():
         lg.warning(exp)
     else:
         if args.extension == 'csv':
-            c_an.launch_analysis(datafile, args.byparty)
+            c_an.launch_analysis(datafile, args.byparty, args.info, args.displaynames, 
+                args.searchnames, args.index, args.groupfirst)
         elif args.extension == 'xml':
             x_an.launch_analysis(datafile)
     finally:
